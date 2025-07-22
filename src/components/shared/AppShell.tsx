@@ -113,7 +113,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="flex items-center gap-2">
             <Sheet open={isSidebarOpen} onOpenChange={setSidebarOpen}>
             <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button variant="ghost" size="icon">
                     <PanelLeft className="h-5 w-5" />
                     <span className="sr-only">Toggle Sidebar</span>
                 </Button>
@@ -174,10 +174,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen w-full bg-background">
-        <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
-            <SidebarContentItems />
+        <div className={cn("hidden", !isMobile && isSidebarOpen && "md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col")}>
+            <SidebarContentItems onLinkClick={() => setSidebarOpen(false)} />
         </div>
-        <div className="md:pl-64 flex flex-col">
+        <div className={cn("flex flex-col", !isMobile && isSidebarOpen && "md:pl-64")}>
             <TopBar />
             <main className="flex-1 p-4 md:p-6 lg:p-8">
                 <div className="mx-auto w-full max-w-4xl">
