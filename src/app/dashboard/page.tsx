@@ -4,7 +4,6 @@ import * as React from 'react';
 import { CreatePost } from '@/components/feed/CreatePost';
 import { CeramahPost } from '@/components/feed/CeramahPost';
 import { ceramahPosts } from '@/lib/data';
-import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const POSTS_PER_PAGE = 3;
@@ -12,16 +11,15 @@ const POSTS_PER_PAGE = 3;
 export default function FeedPage() {
   const [posts, setPosts] = React.useState(ceramahPosts.slice(0, POSTS_PER_PAGE));
   const [isLoading, setIsLoading] = React.useState(false);
-  const [hasMore, setHasMore] = React.useState(true);
-  const loadMoreRef = React.useRef(null);
+  const [hasMore, setHasMore] = React.useState(ceramahPosts.length > POSTS_PER_PAGE);
+  const observerRef = React.useRef<IntersectionObserver | null>(null);
 
   const loadMorePosts = React.useCallback(() => {
-    if (isLoading || !hasMore) return;
     setIsLoading(true);
     setTimeout(() => {
       const currentLength = posts.length;
       const newPosts = ceramahPosts.slice(currentLength, currentLength + POSTS_PER_PAGE);
-      
+
       if (newPosts.length > 0) {
         setPosts(prevPosts => [...prevPosts, ...newPosts]);
       }
@@ -31,29 +29,20 @@ export default function FeedPage() {
       }
       setIsLoading(false);
     }, 500); // Simulate network delay
-  }, [isLoading, hasMore, posts.length]);
+  }, [posts.length]);
 
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMorePosts();
-        }
-      },
-      { threshold: 1.0 }
-    );
+  const loadMoreRef = React.useCallback((node: HTMLDivElement | null) => {
+    if (isLoading) return;
+    if (observerRef.current) observerRef.current.disconnect();
 
-    const currentRef = loadMoreRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
+    observerRef.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        loadMorePosts();
       }
-    };
-  }, [loadMorePosts]);
+    });
+
+    if (node) observerRef.current.observe(node);
+  }, [isLoading, hasMore, loadMorePosts]);
 
 
   return (
