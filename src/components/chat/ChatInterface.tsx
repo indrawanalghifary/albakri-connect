@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Send, ArrowLeft, Search, MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Card, CardContent } from '../ui/card';
+import { Card } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 
 type Message = {
@@ -45,7 +45,7 @@ export function ChatInterface() {
   };
 
   const ConversationList = () => (
-    <Card className={cn("h-full flex-col", isMobile ? (view === 'list' ? 'flex' : 'hidden') : 'flex w-1/3')}>
+    <Card className={cn("h-full flex-col", isMobile ? (view === 'list' ? 'flex w-full' : 'hidden') : 'flex w-1/3')}>
         <div className="p-4 border-b">
             <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -98,7 +98,7 @@ export function ChatInterface() {
     }
     const otherUser = users[selectedConversation.withUserId as keyof typeof users];
     return (
-        <Card className={cn("h-full flex-col", isMobile ? (view === 'chat' ? 'flex' : 'hidden') : 'flex flex-1')}>
+        <Card className={cn("h-full flex-col", isMobile ? (view === 'chat' ? 'flex w-full' : 'hidden') : 'flex flex-1')}>
         <div className="flex items-center gap-4 border-b p-4">
           {isMobile && (
             <Button variant="ghost" size="icon" onClick={() => setView('list')}>
@@ -146,7 +146,7 @@ export function ChatInterface() {
   };
   
   return (
-    <div className="flex h-full w-full gap-4">
+    <div className="flex h-full w-full justify-center gap-4">
       <ConversationList />
       <ChatWindow />
     </div>
