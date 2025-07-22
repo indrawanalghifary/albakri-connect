@@ -25,28 +25,47 @@ type Conversation = {
 };
 
 export function ChatInterface() {
-  const [selectedConversation, setSelectedConversation] = React.useState<Conversation | null>(chatConversations[0]);
+  const [selectedConversation, setSelectedConversation] = React.useState<Conversation | null>(null);
   const isMobile = useIsMobile();
-  const [view, setView] = React.useState<'list' | 'chat'>('list');
+  
+  // On mobile, view state determines whether to show the list or a chat window.
+  // On desktop, we can derive this from `selectedConversation`.
+  const [isChatVisible, setIsChatVisible] = React.useState(false);
 
   React.useEffect(() => {
-    if (!isMobile) {
-      setView('chat'); // On desktop, always show chat view alongside list
-    } else {
-        setView(selectedConversation ? 'chat' : 'list')
+    // If a conversation is selected and we're on mobile, show the chat window.
+    if (selectedConversation && isMobile) {
+      setIsChatVisible(true);
     }
-  }, [isMobile, selectedConversation]);
+    // If we switch to desktop, and a chat is selected, it should be visible.
+    // If no chat is selected on desktop, the placeholder is shown.
+    if (!isMobile) {
+        setIsChatVisible(!!selectedConversation);
+    }
+  }, [selectedConversation, isMobile]);
 
   const handleSelectConversation = (conversation: Conversation) => {
     setSelectedConversation(conversation);
     if (isMobile) {
-      setView('chat');
+      setIsChatVisible(true);
     }
   };
 
+  const handleBackToList = () => {
+    setSelectedConversation(null);
+    setIsChatVisible(false);
+  };
+
   const ConversationList = () => (
-    <Card className={cn("h-full flex-col", isMobile ? (view === 'list' ? 'flex w-full' : 'hidden') : 'flex w-1/3')}>
+    <Card className={cn(
+        "h-full flex-col",
+        isMobile && isChatVisible ? 'hidden' : 'flex', // Hide on mobile when a chat is open
+        isMobile ? 'w-full' : 'w-1/3'
+    )}>
         <div className="p-4 border-b">
+            <h1 className="font-headline text-2xl font-bold tracking-tight mb-4">
+                Messages
+            </h1>
             <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input placeholder="Search messages..." className="pl-9" />
@@ -98,10 +117,14 @@ export function ChatInterface() {
     }
     const otherUser = users[selectedConversation.withUserId as keyof typeof users];
     return (
-        <Card className={cn("h-full flex-col", isMobile ? (view === 'chat' ? 'flex w-full' : 'hidden') : 'flex flex-1')}>
+        <Card className={cn(
+            "h-full flex-col",
+            isMobile ? 'w-full' : 'flex-1',
+            isMobile && !isChatVisible ? 'hidden' : 'flex'
+        )}>
         <div className="flex items-center gap-4 border-b p-4">
           {isMobile && (
-            <Button variant="ghost" size="icon" onClick={() => setView('list')}>
+            <Button variant="ghost" size="icon" onClick={handleBackToList}>
               <ArrowLeft />
             </Button>
           )}
@@ -121,13 +144,13 @@ export function ChatInterface() {
                 {msg.from !== 'user-1' && <Avatar className="h-6 w-6"><AvatarImage src={otherUser.avatar} /></Avatar>}
                 <div
                   className={cn(
-                    'max-w-[200px] rounded-lg px-3 py-2 md:max-w-sm',
+                    'max-w-[70%] md:max-w-[60%] rounded-lg px-3 py-2',
                     msg.from === 'user-1'
                       ? 'bg-accent text-accent-foreground'
                       : 'bg-muted'
                   )}
                 >
-                  <p>{msg.text}</p>
+                  <p className="text-sm">{msg.text}</p>
                 </div>
               </div>
             ))}
@@ -147,8 +170,8 @@ export function ChatInterface() {
   
   return (
     <div className="flex h-full w-full justify-center gap-4">
-      <ConversationList />
-      <ChatWindow />
+        <ConversationList />
+        <ChatWindow />
     </div>
   );
 }
