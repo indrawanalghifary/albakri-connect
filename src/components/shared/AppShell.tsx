@@ -64,103 +64,54 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const currentPageTitle = pageTitles[pathname] || 'Ukhuwah Connect';
 
-  const desktopSidebar = (
-    <Sidebar>
-      <SidebarHeader className="p-4">
-        <div className="flex items-center gap-3">
-          <BookHeart className="size-8 text-primary" />
-          <h1 className="font-headline text-2xl font-bold">Ukhuwah</h1>
-        </div>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.label}>
-              <Link href={item.href} passHref>
-                <SidebarMenuButton
-                  isActive={pathname === item.href}
-                  tooltip={item.label}
-                  asChild
-                >
-                  <div>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </div>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarContent>
-      <SidebarFooter>
-        <Separator className="my-2" />
-        <div className="flex items-center gap-3 p-4">
-          <Avatar>
-            <AvatarImage src={users['user-1'].avatar} alt={users['user-1'].name} />
-            <AvatarFallback>{users['user-1'].name.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold">{users['user-1'].name}</span>
-            <span className="text-xs text-muted-foreground">
-              {users['user-1'].isUstaz ? 'Ustaz' : 'Jemaah'}
-            </span>
-          </div>
-          <Button variant="ghost" size="icon" className="ml-auto" onClick={handleLogout}>
-            <LogOut className="size-5" />
-          </Button>
-        </div>
-      </SidebarFooter>
-    </Sidebar>
-  );
-
-  const mobileSidebar = (
-    <Sidebar>
-      <SidebarHeader className="p-4">
-        <div className="flex items-center gap-3">
-          <BookHeart className="size-8 text-primary" />
-          <h1 className="font-headline text-2xl font-bold">Ukhuwah</h1>
-        </div>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.label}>
-              <Link href={item.href} passHref>
-                <SidebarMenuButton
-                  isActive={pathname === item.href}
-                  tooltip={item.label}
-                  asChild
-                >
-                  <div>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </div>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarContent>
-      <SidebarFooter>
-        <Separator className="my-2" />
-        <div className="flex items-center gap-3 p-4">
-          <Avatar>
-            <AvatarImage src={users['user-1'].avatar} alt={users['user-1'].name} />
-            <AvatarFallback>{users['user-1'].name.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold">{users['user-1'].name}</span>
-            <span className="text-xs text-muted-foreground">
-              {users['user-1'].isUstaz ? 'Ustaz' : 'Jemaah'}
-            </span>
-          </div>
-          <Button variant="ghost" size="icon" className="ml-auto" onClick={handleLogout}>
-            <LogOut className="size-5" />
-          </Button>
-        </div>
-      </SidebarFooter>
-    </Sidebar>
-  )
+  const SidebarItems = () => (
+    <>
+        <SidebarHeader className="p-4">
+            <div className="flex items-center gap-3">
+            <BookHeart className="size-8 text-primary" />
+            <h1 className="font-headline text-2xl font-bold">Ukhuwah</h1>
+            </div>
+        </SidebarHeader>
+        <SidebarContent>
+            <SidebarMenu>
+            {menuItems.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                <Link href={item.href} passHref>
+                    <SidebarMenuButton
+                    isActive={pathname === item.href}
+                    tooltip={item.label}
+                    asChild
+                    >
+                    <div>
+                        <item.icon />
+                        <span>{item.label}</span>
+                    </div>
+                    </SidebarMenuButton>
+                </Link>
+                </SidebarMenuItem>
+            ))}
+            </SidebarMenu>
+        </SidebarContent>
+        <SidebarFooter>
+            <Separator className="my-2" />
+            <div className="flex items-center gap-3 p-4">
+            <Avatar>
+                <AvatarImage src={users['user-1'].avatar} alt={users['user-1'].name} />
+                <AvatarFallback>{users['user-1'].name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+                <span className="text-sm font-semibold">{users['user-1'].name}</span>
+                <span className="text-xs text-muted-foreground">
+                {users['user-1'].isUstaz ? 'Ustaz' : 'Jemaah'}
+                </span>
+            </div>
+            <Button variant="ghost" size="icon" className="ml-auto" onClick={handleLogout}>
+                <LogOut className="size-5" />
+            </Button>
+            </div>
+        </SidebarFooter>
+    </>
+    )
 
   const bottomNav = (
     <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-card">
@@ -186,7 +137,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen flex-col">
-        {isMobile ? mobileSidebar : desktopSidebar}
+        <Sidebar>
+            <SidebarItems />
+        </Sidebar>
         <SidebarInset>
             <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm md:justify-end">
               <div className="flex items-center gap-2 md:hidden">
