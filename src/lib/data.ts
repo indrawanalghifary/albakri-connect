@@ -1,8 +1,8 @@
 export const users = {
-  'user-1': { name: 'Ustaz Abdullah', avatar: 'https://placehold.co/100x100.png', isUstaz: true },
-  'user-2': { name: 'Ahmad', avatar: 'https://placehold.co/100x100.png', isUstaz: false },
-  'user-3': { name: 'Fatimah', avatar: 'https://placehold.co/100x100.png', isUstaz: false },
-  'user-4': { name: 'Yusuf', avatar: 'https://placehold.co/100x100.png', isUstaz: false },
+  'user-1': { name: 'Ustaz Abdullah', avatar: 'https://placehold.co/100x100.png', isUstaz: true, email: 'ustaz.abdullah@mail.com', password: 'password123' },
+  'user-2': { name: 'Ahmad', avatar: 'https://placehold.co/100x100.png', isUstaz: false, email: 'ahmad@mail.com', password: 'password123' },
+  'user-3': { name: 'Fatimah', avatar: 'https://placehold.co/100x100.png', isUstaz: false, email: 'fatimah@mail.com', password: 'password123' },
+  'user-4': { name: 'Yusuf', avatar: 'https://placehold.co/100x100.png', isUstaz: false, email: 'yusuf@mail.com', password: 'password123' },
 };
 
 export const ceramahPosts = [
