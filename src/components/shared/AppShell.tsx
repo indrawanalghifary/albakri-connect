@@ -42,6 +42,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile();
   const router = useRouter();
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleLogout = () => {
     router.push('/');
@@ -63,10 +68,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <BookHeart className="size-8 text-primary" />
           <h1 className="font-headline text-2xl font-bold">Ukhuwah</h1>
         </div>
-        <Button variant="ghost" size="icon" onClick={onLinkClick} className="md:hidden">
-            <X className="h-5 w-5" />
-            <span className="sr-only">Close</span>
-        </Button>
+        {isMobile && (
+          <Button variant="ghost" size="icon" onClick={onLinkClick} className="md:hidden">
+              <X className="h-5 w-5" />
+              <span className="sr-only">Close</span>
+          </Button>
+        )}
       </header>
       <nav className="flex-1 space-y-1 p-2">
         {menuItems.map((item) => (
@@ -171,19 +178,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
     </div>
   );
+  
+  if (!isMounted) {
+    return null;
+  }
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
-        <div className="flex flex-1 flex-col">
-            <TopBar />
-            <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-                <div className="mx-auto w-full max-w-4xl">
-                    {children}
-                </div>
-            </main>
-            {isMobile && <div className="h-16" />}
+    <div className="min-h-screen w-full bg-background">
+      <div className={cn("flex", isMobile ? "flex-col" : "flex-row")}>
+        {!isMobile && (
+          <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+            <SidebarContentItems />
+          </div>
+        )}
+
+        <div className={cn("flex flex-1 flex-col", !isMobile && "md:pl-64")}>
+          <TopBar />
+          <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+            <div className="mx-auto w-full max-w-4xl">
+              {children}
+            </div>
+          </main>
         </div>
-        {isMobile && <BottomNav />}
+      </div>
+      {isMobile && <div className="h-16" />}
+      {isMobile && <BottomNav />}
     </div>
   );
 }
