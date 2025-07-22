@@ -31,6 +31,53 @@ export const ceramahPosts = [
        { id: 'c-3', authorId: 'user-4', text: 'Thank you for this beautiful reminder, Ustaz.' },
     ],
   },
+  {
+    id: 'post-3',
+    authorId: 'user-1',
+    timestamp: '2 days ago',
+    content: 'Let\'s reflect on the importance of gratitude (Shukr). Being thankful for Allah\'s blessings, big or small, increases them. "If you are grateful, I will surely increase you [in favor]."',
+    imageUrl: 'https://placehold.co/600x400.png',
+    dataAiHint: 'hands praying',
+    likes: 180,
+    comments: [
+      { id: 'c-4', authorId: 'user-2', text: 'Alhamdulillah for everything.' },
+    ],
+  },
+  {
+    id: 'post-4',
+    authorId: 'user-1',
+    timestamp: '3 days ago',
+    content: 'Charity (Sadaqah) does not decrease wealth. It is an investment for the hereafter and a means of purifying our wealth and our souls. Give, even if it is a small amount.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    dataAiHint: 'charity giving',
+    likes: 310,
+    comments: [
+       { id: 'c-5', authorId: 'user-3', text: 'A powerful reminder to be generous.' },
+       { id: 'c-6', authorId: 'user-4', text: 'May Allah accept our charity.' },
+    ],
+  },
+  {
+    id: 'post-5',
+    authorId: 'user-1',
+    timestamp: '4 days ago',
+    content: 'The five daily prayers (Salah) are the pillars of our faith. They are our direct connection with Allah, a source of comfort, and a shield from evil. Let us strive to perform them with sincerity and devotion.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    dataAiHint: 'prayer rug',
+    likes: 450,
+    comments: [],
+  },
+  {
+    id: 'post-6',
+    authorId: 'user-1',
+    timestamp: '5 days ago',
+    content: 'The beauty of the Quran is that it is a guidance for all of humanity. Its verses are a source of healing, wisdom, and mercy. Let us make a habit of reciting and pondering upon its meaning daily.',
+    imageUrl: 'https://placehold.co/600x400.png',
+    dataAiHint: 'open quran',
+    likes: 380,
+    comments: [
+      { id: 'c-7', authorId: 'user-2', text: 'Ameen. The Quran is truly a miracle.' },
+    ],
+  },
 ];
 
 export const pengajianSchedules = [
