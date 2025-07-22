@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -141,10 +142,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <SidebarItems />
         </Sidebar>
         <SidebarInset>
-            <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm md:justify-end">
-              <div className="flex items-center gap-2 md:hidden">
+            <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
+              <div className="flex items-center gap-2">
                 <SidebarTrigger />
-                 <h1 className="font-headline text-xl font-bold">{currentPageTitle}</h1>
+                 <h1 className="font-headline text-xl font-bold hidden md:block">{currentPageTitle}</h1>
               </div>
               <div className="flex items-center gap-4">
                  <DropdownMenu>
