@@ -142,7 +142,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <SidebarItems />
         </Sidebar>
         <SidebarInset>
-            <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
+            <header className="flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm">
               <div className="flex items-center gap-2">
                 <SidebarTrigger />
                  <h1 className="font-headline text-xl font-bold hidden md:block">{currentPageTitle}</h1>
