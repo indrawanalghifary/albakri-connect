@@ -117,6 +117,8 @@ export const chatConversations = [
     messages: [
       { from: 'user-2', text: 'Assalamualaikum Ustaz, I have a question about fasting.', timestamp: '10:30 AM' },
       { from: 'user-1', text: 'Waalaikumsalam, Ahmad. Of course, what would you like to know?', timestamp: '10:32 AM' },
+      { from: 'user-2', text: 'If I accidentally swallow water while making wudu, does it break my fast?', timestamp: '10:33 AM' },
+      { from: 'user-1', text: 'A good question. The majority of scholars say that if it\'s unintentional and a small amount, your fast is still valid. However, you should be careful.', timestamp: '10:35 AM' },
     ],
     unread: 1,
   },
@@ -125,6 +127,18 @@ export const chatConversations = [
     withUserId: 'user-3',
     messages: [
       { from: 'user-3', text: 'Ustaz, can you recommend some books on Islamic history?', timestamp: 'Yesterday' },
+      { from: 'user-1', text: 'Waalaikumsalam, Fatimah. A great place to start is "The Sealed Nectar" (Ar-Raheeq Al-Makhtum). It\'s a renowned biography of the Prophet (PBUH).', timestamp: 'Yesterday' },
+      { from: 'user-3', text: 'Jazakallah khair, Ustaz! I will look for it.', timestamp: 'Yesterday' },
+    ],
+    unread: 0,
+  },
+  {
+    id: 'chat-3',
+    withUserId: 'user-4',
+    messages: [
+      { from: 'user-4', text: 'Assalamualaikum, I missed the last pengajian. Is there a recording available?', timestamp: '2 days ago' },
+      { from: 'user-1', text: 'Waalaikumsalam Yusuf. Yes, all sessions are recorded. I will send you the link shortly.', timestamp: '2 days ago' },
+      { from: 'user-4', text: 'Thank you so much!', timestamp: '2 days ago' },
     ],
     unread: 0,
   }
