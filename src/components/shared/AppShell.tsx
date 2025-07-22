@@ -115,7 +115,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   );
 
   const TopBar = () => (
-     <header className="flex h-16 shrink-0 items-center justify-between border-b bg-background/95 px-4 backdrop-blur-sm md:px-6">
+     <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between border-b bg-background/95 px-4 backdrop-blur-sm md:px-6">
         <div className="flex items-center gap-2">
             <Sheet open={isSidebarOpen} onOpenChange={setSidebarOpen}>
                 <SheetTrigger asChild>
@@ -180,7 +180,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   );
   
   if (!isMounted) {
-    return null;
+    return (
+        <div className="min-h-screen w-full bg-background">
+             <div className="flex flex-row">
+                <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+                    <SidebarContentItems />
+                </div>
+                <div className="flex flex-1 flex-col md:pl-64">
+                    <header className="flex h-16 shrink-0 items-center justify-between border-b bg-background/95 px-4 backdrop-blur-sm md:px-6"></header>
+                    <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+                        <div className="mx-auto w-full max-w-4xl">
+                        {children}
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    );
   }
 
   return (
@@ -194,7 +210,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <div className={cn("flex flex-1 flex-col", !isMobile && "md:pl-64")}>
           <TopBar />
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+          <main className="flex-1 p-4 md:p-6 lg:p-8">
             <div className="mx-auto w-full max-w-4xl">
               {children}
             </div>
