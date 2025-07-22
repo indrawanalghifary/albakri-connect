@@ -6,10 +6,10 @@ import { pengajianSchedules } from '@/lib/data';
 export default function SchedulePage() {
   return (
     <div className="space-y-6">
-      <h1 className="font-headline text-3xl font-bold tracking-tight md:hidden">
+      <h1 className="font-headline text-2xl md:text-3xl font-bold tracking-tight md:hidden">
         Pengajian Schedule
       </h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {pengajianSchedules.map((item) => (
           <Card key={item.id} className="flex flex-col justify-between shadow-md">
             <CardHeader>
