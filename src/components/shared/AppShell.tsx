@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -26,7 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { notifications, users } from '@/lib/data';
 import { Separator } from '../ui/separator';
 import { cn } from '@/lib/utils';
@@ -109,18 +108,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   );
 
   const TopBar = () => (
-     <header className="flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur-sm md:px-6">
+     <header className="flex h-16 shrink-0 items-center justify-between border-b bg-background/95 px-4 backdrop-blur-sm md:px-6">
         <div className="flex items-center gap-2">
             <Sheet open={isSidebarOpen} onOpenChange={setSidebarOpen}>
-            <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <PanelLeft className="h-5 w-5" />
-                    <span className="sr-only">Toggle Sidebar</span>
-                </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="p-0 w-72" showCloseButton={false}>
-                <SidebarContentItems onLinkClick={() => setSidebarOpen(false)} />
-            </SheetContent>
+                <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <PanelLeft className="h-5 w-5" />
+                        <span className="sr-only">Toggle Sidebar</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="p-0 w-72" showCloseButton={false}>
+                    <SheetTitle className="sr-only">Sidebar Menu</SheetTitle>
+                    <SidebarContentItems onLinkClick={() => setSidebarOpen(false)} />
+                </SheetContent>
             </Sheet>
             <h1 className="font-headline text-xl font-bold hidden md:block">{currentPageTitle}</h1>
         </div>
@@ -173,20 +173,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen w-full bg-background">
-        <div className={cn("hidden", !isMobile && isSidebarOpen && "md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col")}>
-            <SidebarContentItems onLinkClick={() => setSidebarOpen(false)} />
-        </div>
-        <div className={cn("flex flex-col", !isMobile && isSidebarOpen && "md:pl-64")}>
+    <div className="flex min-h-screen w-full bg-background">
+        <div className="flex flex-1 flex-col">
             <TopBar />
-            <main className="flex-1 p-4 md:p-6 lg:p-8">
+            <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
                 <div className="mx-auto w-full max-w-4xl">
                     {children}
                 </div>
             </main>
+            {isMobile && <div className="h-16" />}
         </div>
-        <BottomNav />
-        <div className="h-16 md:hidden" />
+        {isMobile && <BottomNav />}
     </div>
   );
 }
