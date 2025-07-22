@@ -13,6 +13,7 @@ import {
   LogOut,
   BookHeart,
   PanelLeft,
+  X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -58,11 +59,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const SidebarContentItems = ({ onLinkClick }: { onLinkClick?: () => void }) => (
     <div className="flex h-full flex-col bg-card text-card-foreground">
-      <header className="p-4">
+      <header className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3">
           <BookHeart className="size-8 text-primary" />
           <h1 className="font-headline text-2xl font-bold">Ukhuwah</h1>
         </div>
+        <Button variant="ghost" size="icon" onClick={onLinkClick} className="md:hidden">
+            <X className="h-5 w-5" />
+            <span className="sr-only">Close</span>
+        </Button>
       </header>
       <nav className="flex-1 space-y-1 p-2">
         {menuItems.map((item) => (
@@ -113,7 +118,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     <span className="sr-only">Toggle Sidebar</span>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="p-0 w-72">
+            <SheetContent side="left" className="p-0 w-72" showCloseButton={false}>
                 <SidebarContentItems onLinkClick={() => setSidebarOpen(false)} />
             </SheetContent>
             </Sheet>
