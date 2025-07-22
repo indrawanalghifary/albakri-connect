@@ -28,39 +28,33 @@ export function ChatInterface() {
   const [selectedConversation, setSelectedConversation] = React.useState<Conversation | null>(null);
   const isMobile = useIsMobile();
   
-  // On mobile, view state determines whether to show the list or a chat window.
-  // On desktop, we can derive this from `selectedConversation`.
-  const [isChatVisible, setIsChatVisible] = React.useState(false);
-
-  React.useEffect(() => {
-    // If a conversation is selected and we're on mobile, show the chat window.
-    if (selectedConversation && isMobile) {
-      setIsChatVisible(true);
-    }
-    // If we switch to desktop, and a chat is selected, it should be visible.
-    // If no chat is selected on desktop, the placeholder is shown.
-    if (!isMobile) {
-        setIsChatVisible(!!selectedConversation);
-    }
-  }, [selectedConversation, isMobile]);
-
   const handleSelectConversation = (conversation: Conversation) => {
     setSelectedConversation(conversation);
-    if (isMobile) {
-      setIsChatVisible(true);
-    }
   };
 
   const handleBackToList = () => {
     setSelectedConversation(null);
-    setIsChatVisible(false);
   };
+
+  // On desktop, select the first conversation by default if none is selected
+  React.useEffect(() => {
+    if (!isMobile && !selectedConversation) {
+      setSelectedConversation(chatConversations[0]);
+    }
+    if (isMobile && selectedConversation) {
+        // If we switch to mobile, and a chat was selected, clear it to show the list first
+        // setSelectedConversation(null) // This line causes issues when resizing. Better to just control visibility.
+    }
+  }, [isMobile]);
+
 
   const ConversationList = () => (
     <Card className={cn(
         "h-full flex-col",
-        isMobile && isChatVisible ? 'hidden' : 'flex', // Hide on mobile when a chat is open
-        isMobile ? 'w-full' : 'w-1/3'
+        // On mobile, hide this list if a conversation is selected
+        isMobile && selectedConversation ? 'hidden' : 'flex',
+        // On desktop, it takes 1/3 of the width
+        !isMobile ? 'w-1/3' : 'w-full',
     )}>
         <div className="p-4 border-b">
             <h1 className="font-headline text-2xl font-bold tracking-tight mb-4">
@@ -109,7 +103,11 @@ export function ChatInterface() {
   const ChatWindow = () => {
     if (!selectedConversation) {
       return (
-        <div className={cn("h-full flex-col items-center justify-center text-muted-foreground", isMobile ? "hidden" : "flex flex-1")}>
+        <div className={cn(
+            "h-full flex-col items-center justify-center text-muted-foreground", 
+            // Hide on mobile if no conversation is selected, but show on desktop
+            isMobile ? "hidden" : "flex flex-1"
+        )}>
           <MessageSquare className="h-12 w-12 mb-4" />
           <p>Select a conversation to start chatting</p>
         </div>
@@ -119,8 +117,10 @@ export function ChatInterface() {
     return (
         <Card className={cn(
             "h-full flex-col",
-            isMobile ? 'w-full' : 'flex-1',
-            isMobile && !isChatVisible ? 'hidden' : 'flex'
+            // On mobile, show if a conversation is selected
+            isMobile && selectedConversation ? 'flex' : 'hidden',
+             // On desktop, show and take up remaining space
+            !isMobile ? 'flex flex-1' : 'w-full'
         )}>
         <div className="flex items-center gap-4 border-b p-4">
           {isMobile && (
