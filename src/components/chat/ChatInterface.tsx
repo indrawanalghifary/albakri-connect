@@ -144,7 +144,7 @@ export function ChatInterface() {
                 {msg.from !== 'user-1' && <Avatar className="h-6 w-6"><AvatarImage src={otherUser.avatar} /></Avatar>}
                 <div
                   className={cn(
-                    'max-w-[70%] md:max-w-[60%] rounded-lg px-3 py-2',
+                    'max-w-[80%] md:max-w-[70%] rounded-lg px-3 py-2',
                     msg.from === 'user-1'
                       ? 'bg-accent text-accent-foreground'
                       : 'bg-muted'
