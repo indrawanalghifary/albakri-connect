@@ -76,13 +76,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.label}>
-              <Link href={item.href} legacyBehavior passHref>
+              <Link href={item.href} passHref>
                 <SidebarMenuButton
                   isActive={pathname === item.href}
                   tooltip={item.label}
+                  asChild
                 >
-                  <item.icon />
-                  <span>{item.label}</span>
+                  <div>
+                    <item.icon />
+                    <span>{item.label}</span>
+                  </div>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
@@ -114,11 +117,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-card">
       <div className="grid h-16 grid-cols-4">
         {menuItems.map((item) => (
-          <Link href={item.href} key={item.label} legacyBehavior passHref>
-            <a className={`flex flex-col items-center justify-center gap-1 p-2 ${pathname === item.href ? 'text-accent' : 'text-muted-foreground'}`}>
-              <item.icon className="h-6 w-6" />
-              <span className="text-xs">{item.label}</span>
-            </a>
+          <Link
+            href={item.href}
+            key={item.label}
+            className={`flex flex-col items-center justify-center gap-1 p-2 ${pathname === item.href ? 'text-accent' : 'text-muted-foreground'}`}
+          >
+            <item.icon className="h-6 w-6" />
+            <span className="text-xs">{item.label}</span>
           </Link>
         ))}
       </div>
