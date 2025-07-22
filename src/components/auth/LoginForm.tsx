@@ -17,6 +17,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { users } from '@/lib/data';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -36,13 +37,23 @@ export function LoginForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Mock login success
-    toast({
-      title: "Login Successful",
-      description: "Welcome back!",
-    });
-    router.push('/dashboard');
+    const user = Object.values(users).find(
+      (u) => u.email === values.email && u.password === values.password
+    );
+
+    if (user) {
+        toast({
+            title: "Login Successful",
+            description: "Welcome back!",
+        });
+        router.push('/dashboard');
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Login Failed",
+            description: "Invalid email or password. Please try again.",
+        });
+    }
   }
 
   return (
